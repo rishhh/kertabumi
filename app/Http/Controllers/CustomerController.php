@@ -152,6 +152,8 @@ class customerController extends Controller
             ->addColumn('action', function($customer){
                 return '<a href="customer/'.$customer->id.'/edit" class="fa btn btn-info btn-sm"><i class="glyphicon glyphicon-edit"></i> Edit</a> '.
                     '<a href="customer" onclick="deleteData('.$customer->id.')" class="fa btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i> Hapus</a>';
-            })->make(true);
+            })
+            ->addIndexColumn()
+            ->make(true);
     }
 }

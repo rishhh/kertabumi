@@ -60,8 +60,8 @@ $thisPage = "SignUp";
 	                    <label for="jk" class="col-md-4 col-form-label text-md-right">{{ __('Jenis Kelamin') }}</label>
 
 	                    <div class="col-md-6">
-	                        <input id="jk" type="radio" name="jk" value="0"> Laki - laki 
-	                        <input id="jk" type="radio" name="jk" value="1"> Perempuan
+	                        <input type="radio" name="jk" value="0"> Laki - laki 
+	                        <input type="radio" name="jk" value="1"> Perempuan
 
 	                        @if ($errors->has('email'))
 	                            <span class="invalid-feedback">
@@ -126,6 +126,9 @@ $thisPage = "SignUp";
 	                        <button type="submit" class="btn btn-primary">
 	                            {{ __('Register') }}
 	                        </button>
+	                        <a class="btn btn-link" href="{{ route('customer.login') }}">
+		                        {{ __('Sudah Punya Akun?') }}
+		                	</a>
 	                    </div>
 	                </div>
 	            </form>
@@ -133,28 +136,4 @@ $thisPage = "SignUp";
 	    </div>
 	</div>
 
-
-<!-- 
-	{!! Form::open(array('url'=>'backend/customer')) !!}
-	<table class="table table-bordered">
-		<h1 align="center">Register</h1>
-
-		<tr><td>Nama</td><td>{!! Form::text('nama','',['class'=>'form-control']) !!}</td></tr>
-		<tr><td>Email</td><td>{!! Form::text('email','',['class'=>'form-control']) !!}</td></tr>
-		<tr><td>No Telp</td><td>{!! Form::text('telp','',['class'=>'form-control']) !!}</td></tr>
-		<tr><td>Jenis Kelamin</td><td>{!! Form::radio('jk', '0') !!} Laki - laki {!! Form::radio('jk', '1') !!} Perempuan</td></tr>
-		<tr><td>Alamat</td><td>{!! Form::textarea('alamat','',['class'=>'form-control']) !!}</td></tr>
-		<tr><td>Kode Pos</td><td>{!! Form::text('kodepos','',['class'=>'form-control']) !!}</td></tr>
-		<tr><td>Password</td><td>{!! Form::password('password', ['class'=>'form-control']) !!}</td></tr>
-		<tr>
-			<td colspan="2" align="center">
-				{!! Form::submit('Simpan Data',['class'=>'btn btn-success btn-sm']) !!}
-				{!! link_to('./','Batal',['class'=>'btn btn-warning btn-sm']) !!}
-			</td>
-		</tr>
-	</table>
-	<p align="center">Already have an account? <a href="#">Sign in</a>.</p>
-	{!! Form::close() !!}
-	     -->
-
-@stop
+@endsection

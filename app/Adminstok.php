@@ -16,7 +16,7 @@ class Adminstok extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = ['username', 'email', 'password',];
+    protected $fillable = ['username', 'email', 'level', 'password',];
 
     /**
      * The attributes that should be hidden for arrays.

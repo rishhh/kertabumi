@@ -26,4 +26,16 @@ class Customer extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Method One To Many Customers -> Keranjang
+     */
+    public function keranjang()
+    {
+        return $this->hasMany(Keranjang::class);
+    }
+        public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class);
+    }
 }

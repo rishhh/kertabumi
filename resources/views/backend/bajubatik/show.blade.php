@@ -12,7 +12,7 @@
         	<b>Stok S : {{ $kemeja->uk_s }} M : {{ $kemeja->uk_m }} L : {{ $kemeja->uk_l }} XL : {{ $kemeja->uk_xl }}</b><br>
         	<b>Bahan : <br>{{ $kemeja->bahan }}</b><br>
         	<b>Keterangan : <br>{{ $kemeja->keterangan }}</b><br><br>
-        	{!! link_to('backend/bajubatik','Kembali',['class'=>'btn btn-warning btn-sm']) !!}
+        	{!! link_to('backend/bajubatik',' Kembali',['class'=>'fa fa-backward btn btn-warning btn-sm']) !!}
 
         </div>
     </div>

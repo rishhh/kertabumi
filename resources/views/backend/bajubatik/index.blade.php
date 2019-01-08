@@ -1,28 +1,50 @@
 @extends('admin')
 @section('content')
 
-<h1 align="center">Kelola Baju Batik</h1>
+<h1 align="center" class="judul">Kelola Baju Batik</h1>
 <br>
+<a class="fa fa-print btn btn-info btn-sm no-print" onclick="printFunc()"> Cetak</a>
 {!! link_to('backend/bajubatik/create',' Tambah Data',['class'=>'fa fa-plus-circle btn btn-primary']) !!}
 <hr>
 <table width="100%" id="kemeja-table" class="table table-hover" align="center">
 	<thead>
 		<tr>
-			<th>Nama baju</th><th>Size S</th><th>Size M</th><th>Size L</th><th>Size XL</th><th> </th>
+			<th>No</th><th>Nama baju</th><th>Size S</th><th>Size M</th><th>Size L</th><th>Size XL</th><th> </th>
 		</tr>
 	</thead>
+    <tbody>
+        
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>No</th><th>Nama baju</th><th>Size S</th><th>Size M</th><th>Size L</th><th>Size XL</th><th> </th>
+        </tr>
+    </tfoot>
 
 </table>
-@stop
+
+@endsection
+
+@section('printFunction')
+
+    function printFunc(){
+      $('.judul').text('LAPORAN STOK KEMEJA');
+      $('.btn').hide();
+      window.print();
+    }
+
+@endsection
 
 @section('DataTablesScript')
 
 	$(function(){
             $('#kemeja-table').DataTable({
+                responsive : true,
                 processing : true,
                 serverSide : true,
                 ajax : '{{ route('backend.bajubatikjs') }}',
                 columns : [
+                    { data: 'DT_Row_Index', name: 'id'},
                     { data: 'nama_kemeja', name: 'nama_kemeja'},
                     { data: 'uk_s', name: 'uk_s'},
                     { data: 'uk_m', name: 'uk_m'},

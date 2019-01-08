@@ -25,7 +25,7 @@
     <link href="{{ asset('vendor/datatables-responsive/dataTables.responsive.css') }}" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/sb-admin-2.css') }}" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
@@ -66,8 +66,8 @@
                     <ul class="dropdown-menu dropdown-alert">
                         <li><a href="{{ route('backend.home') }}/user/{{ Auth::user()->id }}"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
+                        <!-- <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li> -->
                         <li class="divider"></li>
                         <li><a href="{{ route('backend.logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
@@ -82,7 +82,7 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
+                        <!-- <li class="sidebar-search">
                             <div class="input-group custom-search-form">
                                 <input type="text" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
@@ -91,22 +91,21 @@
                                     </button>
                                 </span>
                             </div>
-                            <!-- /input-group -->
-                        </li>
+                        </li> -->
                         <li class="active">
                             <a href="{{ route('backend.home') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-money fa-fw"></i> Pembayaran</a>
+                            <a href="{{ route('backend.home') }}/keranjang"><i class="fa fa-shopping-cart fa-fw"></i> Keranjang</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-exchange fa-fw"></i> Transaksi</a>
+                            <a href="{{ route('backend.home') }}/transaksi"><i class="fa fa-exchange fa-fw"></i> Transaksi</a>
                         </li>
                         <li>
                             <a href="{{ route('backend.home') }}/pesan"><i class="fa fa-envelope fa-fw"></i> Pesan</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i> Kelola<span class="fa arrow"></span></a>
+                            <a><i class="fa fa-wrench fa-fw"></i> Kelola<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     {!! link_to('backend/bajubatik', 'Baju Batik') !!}
@@ -118,27 +117,16 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-tasks fa-fw"></i> Stok<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    {!! link_to('backend/stokbajubatik', ' Baju Batik') !!}
-                                </li>
-                                <li>
-                                    {!! link_to('backend/stokkain', 'Kain') !!}
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
                             <a href="{{ route('backend.home') }}/customer"><i class="fa fa-group fa-fw"></i> Pelanggan</a>
                         </li>
                         <li>
                             <a href="{{ route('backend.home') }}/user"><i class="fa fa-user fa-fw"></i> Admin</a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="#"><i class="fa fa-align-justify fa-fw"></i> Diskripsi</a>
                         </li>
-                        <li>
-                            <a href="#"><i class="fa fa-photo fa-fw"></i> Testimony</a>
+ -->                        <li>
+                            <a href="{{ route('backend.home') }}/testimoni"><i class="fa fa-photo fa-fw"></i> Testimoni</a>
                         </li>
 
                     </ul>
@@ -162,6 +150,7 @@
             <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->
+        @include('layouts._modal')
     </div>
     <!-- /#wrapper -->
 
@@ -182,34 +171,16 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
 
     <!-- Custom Theme JavaScript -->
-    <script src="{{ asset('js/sb-admin-2.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('assets/js/sb-admin-2.js') }}"></script>
+
+    @stack('scripts')
 
     <script>
 
-        // @yield('editForm')
-
-        function editForm(id){
-            save_method = 'edit';
-            $('input[name=_method]').val('PATCH');
-            // $('#modal-form form')[0].reset();
-            $.ajax({
-                url: "{{ url('backend/stokkain') }}"+'/'+ id + "/edit",
-                type: "GET",
-                dataType: "JSON",
-                success: function(data){
-                    $('#modal-form').modal('show');
-                    $('.modal-title').text('Edit Stok Kain');
-
-                    $('#id').val(data.id);
-                    $('#nama_kain').val(data.nama_kain);
-                },
-                error: function(){
-                    alert("Nothing Data");
-                }
-            });
-        }
-
         @yield('deleteData')
+        
+        @yield('printFunction')
 
         @yield('DataTablesScript')
 

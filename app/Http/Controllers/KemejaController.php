@@ -6,6 +6,7 @@ use App\Kemeja;
 use DataTables;
 use Input;
 use Redirect;
+use Storage;
 use Illuminate\Http\Request;
 
 class KemejaController extends Controller
@@ -67,7 +68,8 @@ class KemejaController extends Controller
             'uk_l'=>'required',
             'uk_xl'=>'required',
             'bahan'=>'required',
-            'keterangan'=>'required'
+            'keterangan'=>'required',
+            'file'=>'required'
             ]);
         if ( $request->hasFile('file')) {
             $filename = $request->file->getClientOriginalName();
@@ -87,14 +89,8 @@ class KemejaController extends Controller
             $kemeja->save();
             return Redirect('backend/bajubatik');
         }else{
-            return 'No selected file';
+            return view('backend/bajubatik/create');
         }
-
-        // $input = $request->all();
-        // $input = array_except(Input::all(), '_method'); 
-    
-        // Kemeja::create($input);
-        // return Redirect('backend/bajubatik');
     }
 
     /**
@@ -143,6 +139,8 @@ class KemejaController extends Controller
         if ( $request->hasFile('file')) {
             $filename = $request->file->getClientOriginalName();
             $request->file->storeAs('public/img',$filename);
+            $oldfilename = Kemeja::find($id)['file'];
+            Storage::delete('public/img/'.$oldfilename);
 
             $kemeja = Kemeja::find($id);
             $kemeja->nama_kemeja = $request->nama_kemeja;
@@ -158,11 +156,21 @@ class KemejaController extends Controller
             $kemeja->update();
             return Redirect('backend/bajubatik');
         }else{
-            return 'No selected file';
+            $oldfilename = Kemeja::find($id)['file'];
+            $kemeja = Kemeja::find($id);
+            $kemeja->nama_kemeja = $request->nama_kemeja;
+            $kemeja->harga = $request->harga;
+            $kemeja->kategori = $request->kategori;
+            $kemeja->uk_s = $request->uk_s;
+            $kemeja->uk_m = $request->uk_m;
+            $kemeja->uk_l = $request->uk_l;
+            $kemeja->uk_xl = $request->uk_xl;
+            $kemeja->bahan = $request->bahan;
+            $kemeja->keterangan = $request->keterangan;
+            $kemeja->file = $oldfilename;
+            $kemeja->update();
+            return Redirect('backend/bajubatik');
         }
-        // $kemeja = Kemeja::find($id);
-        // $kemeja->update($input);
-        // return Redirect('backend/bajubatik');
     }
 
     /**
@@ -173,6 +181,8 @@ class KemejaController extends Controller
      */
     public function destroy($id)
     {
+        $oldfilename = Kemeja::find($id)['file'];
+        Storage::delete('public/img/'.$oldfilename);
         $kemeja = Kemeja::find($id);
         $kemeja->delete();
         return Redirect('backend/bajubatik');
@@ -187,7 +197,9 @@ class KemejaController extends Controller
                 return '<a href="bajubatik/'.$kemeja->id.'" class="fa btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i> Detail</a> '.
                     '<a href="bajubatik/'.$kemeja->id.'/edit" class="fa btn btn-info btn-sm"><i class="glyphicon glyphicon-edit"></i> Edit</a> '.
                     '<a href="bajubatik" onclick="deleteData('.$kemeja->id.')" class="fa btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i> Hapus</a>';
-            })->make(true);
+            })
+            ->addIndexColumn()
+            ->make(true);
     }
 
 }

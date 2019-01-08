@@ -2,6 +2,11 @@
 @section('content')
 
 <h1 align="center">Tambah Data Kain</h1>
+@if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <strong>{!! Html::ul($errors->all()) !!}</strong>
+    </div>
+@endif
 {!! Form::open(array('url'=>'backend/kain', 'files'=>'true')) !!}
 <table class="table table-bordered">
 	<tr><td>Tipe</td><td>{!! Form::select('tipe', ['0'=>'Batik Tulis', '1'=>'Batik Printing', '2' => 'Polos']) !!}</td></tr>

@@ -3,13 +3,22 @@
 
 <h1 align="center">Kelola Admin</h1>
 <br>
-{!! link_to('backend/user/create',' Tambah Data',['class'=>'fa fa-plus-circle btn btn-primary']) !!}
+{!! link_to(route('user.create'),' Tambah Data',['class'=>'fa fa-plus-circle btn btn-primary']) !!}
 <hr>
 <table width="100%" id="user-table" class="table table-hover">
 	<thead>
-		<tr><th>Username</th><th>Level</th><th> </th></tr>
+		<tr>
+            <th>No</th><th>Username</th><th>Level</th><th> </th>
+        </tr>
 	</thead>
-
+    <tbody>
+        
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>No</th><th>Username</th><th>Level</th><th> </th>
+        </tr>
+    </tfoot>
 </table>
 
 @stop
@@ -18,10 +27,12 @@
 
 	$(function(){
             $('#user-table').DataTable({
+                responsive: true,
                 processing : true,
                 serverSide : true,
                 ajax : '{{ route('backend.userjs') }}',
                 columns : [
+                    { data: 'DT_Row_Index', name: 'id'},
                     { data: 'username', name: 'username'},
                     { data: 'level', name: 'level'},
                     { data: 'action', name: 'action', orderable: false, searchable: false}

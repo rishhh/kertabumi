@@ -6,8 +6,18 @@
 <hr>
 <table width="100%" id="pesan-table" class="table table-hover">
 	<thead>
-		<tr><th>Tanggal Masuk</th><th>Nama</th><th>Email</th><th>No Telp</th><th> </th></tr>
+		<tr>
+            <th>No</th><th>Tanggal Masuk</th><th>Nama</th><th>Email</th><th>No Telp</th><th> </th>
+        </tr>
 	</thead>
+    <tbody>
+        
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>No</th><th>Tanggal Masuk</th><th>Nama</th><th>Email</th><th>No Telp</th><th> </th>
+        </tr>
+    </tfoot>
 
 </table>
 
@@ -17,10 +27,12 @@
 
 	$(function(){
             $('#pesan-table').DataTable({
+                responsive: true,
                 processing : true,
                 serverSide : true,
                 ajax : '{{ route('backend.pesanjs') }}',
                 columns : [
+                    { data: 'DT_Row_Index', name: 'id'},
                     { data: 'created_at', name: 'created_at'},
                     { data: 'nama', name: 'nama'},
                     { data: 'email', name: 'email'},
