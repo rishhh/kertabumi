@@ -115,6 +115,8 @@ class PesanController extends Controller
             ->addColumn('action', function($pesan){
                 return '<a href="pesan/'.$pesan->id.'" class="fa btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i> Detail</a> '.
                     '<a href="pesan" onclick="deleteData('.$pesan->id.')" class="fa btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i> Hapus</a>';
-            })->make(true);
+            })
+            ->addIndexColumn()
+            ->make(true);
     }
 }

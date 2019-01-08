@@ -3,8 +3,12 @@
 use App\Kemeja;
 use App\Kain;
 use App\User;
+use App\Adminstok;
 use App\Customer;
 use App\Pesan;
+use App\Transaksi;
+use App\Keranjang;
+use App\Testimoni;
 use Illuminate\Http\Request;
 
 /*
@@ -44,10 +48,22 @@ Route::get('stokkainjs', function() {
 Route::get('userjs', function() {
 	return User::all();
 })->name('api.userjs');
+Route::get('adminstokjs', function() {
+	return Adminstok::all();
+})->name('api.adminstokjs');
 Route::get('customerjs', function() {
 	return Customer::all();
 })->name('api.customerjs');
 Route::get('pesanjs', function() {
 	return Pesan::all();
 })->name('api.pesanjs');
+Route::get('transaksijs', function() {
+	return Transaksi::all();
+})->name('api.transaksijs');
+Route::get('keranjangjs', function() {
+	return Keranjang::all();
+})->name('api.keranjangjs');
+Route::get('testimonijs', function() {
+	return Testimoni::all();
+})->name('api.testimonijs');
 

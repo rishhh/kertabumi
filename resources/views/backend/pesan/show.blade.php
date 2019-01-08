@@ -15,7 +15,7 @@
         	<b>{{ $pesan->telp }}</b><br>
         	Isi Pesan : <br>
         	<b>{{ $pesan->pesan }}</b><br><br>
-        	{!! link_to('backend/pesan','Kembali',['class'=>'btn btn-warning btn-sm']) !!}
+        	{!! link_to('backend/pesan',' Kembali',['class'=>'fa fa-backward btn btn-warning btn-sm']) !!}
         </div>
         <div class="col-md-4"></div>
     </div>

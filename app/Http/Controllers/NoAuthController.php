@@ -7,6 +7,7 @@ use App\Kain;
 use App\User;
 use App\Customer;
 use App\Pesan;
+use App\Testimoni;
 use DataTables;
 use Redirect;
 use Illuminate\Http\Request;
@@ -37,38 +38,16 @@ class NoAuthController extends Controller
         ]);
         return redirect()->back()->with('message', 'Pesan Terkirim');
     }
-    public function jsBajuBatik()
+
+    public function show($id)
     {
-        $kemeja = Kemeja::all();
-        return Datatables::of($kemeja);
+        $kemeja['kemeja'] = Kemeja::find($id);
+        return view('frontend.detailproduct', $kemeja);
     }
-    public function jsStokBajuBatik()
+
+    public function testimoni()
     {
-        $kemeja = Kemeja::all();
-        return Datatables::of($kemeja);
-    }
-    public function jsKain()
-    {
-        $kain = Kain::all();
-        return Datatables::of($kain);
-    }
-    public function jsStokKain()
-    {
-        $kain = Kain::all();
-        return Datatables::of($kain);
-    }
-    public function jsUser()
-    {
-        $user = User::all();
-        return Datatables::of($user);
-    }
-    public function jsCustomer()
-    {
-        $customer = Customer::all();
-        return Datatables::of($customer);
-    }
-    public function jsPesan()
-    {
-        return Pesan::all();
+        $testimoni['testimoni'] = Testimoni::all();
+        return view('frontend.testimoni', $testimoni);
     }
 }

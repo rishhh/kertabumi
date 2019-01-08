@@ -1,27 +1,50 @@
 @extends('admin')
 @section('content')
 
-<h1 align="center">Kelola Kain</h1>
+<h1 align="center" class="judul">Kelola Kain</h1>
 <br>
+<a class="fa fa-print btn btn-info btn-sm no-print" onclick="printFunc()"> Cetak</a>
 {!! link_to('backend/kain/create',' Tambah Data',['class'=>'fa fa-plus-circle btn btn-primary']) !!}
 <hr>
 <table width="100%" id="kain-table" class="table table-hover">
 	<thead>
-		<tr><th>Tipe</th><th>Nama Kain</th><th>Stok</th><th> </th></tr>
+		<tr>
+            <th>No</th><th>Tipe</th><th>Nama Kain</th><th>Stok</th><th> </th>
+        </tr>
 	</thead>
+    <tbody>
+        
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>No</th><th>Tipe</th><th>Nama Kain</th><th>Stok</th><th> </th>
+        </tr>
+    </tfoot>
 
 </table>
 
-@stop
+@endsection
+
+@section('printFunction')
+
+    function printFunc(){
+      $('.judul').text('LAPORAN STOK KAIN');
+      $('.btn').hide();
+      window.print();
+    }
+
+@endsection
 
 @section('DataTablesScript')
 
 	$(function(){
             $('#kain-table').DataTable({
+                responsive: true,
                 processing : true,
                 serverSide : true,
                 ajax : '{{ route('backend.kainjs') }}',
                 columns : [
+                    { data: 'DT_Row_Index', name: 'id'},
                     { data: 'tipe', name: 'tipe'},
                     { data: 'nama_kain', name: 'nama_kain'},
                     { data: 'stok', name: 'stok'},

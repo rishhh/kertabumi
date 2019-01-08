@@ -58,8 +58,11 @@ $thisPage = "Login";
 		                    </button>
 
 		                    <a class="btn btn-link" href="{{ route('password.request') }}">
-		                        {{ __('Forgot Your Password?') }}
+		                        {{ __('Lupa Password?') }}
 		                    </a>
+		                    <a class="btn btn-link" href="{{ route('signup') }}">
+		                        {{ __('Belum Punya Akun?') }}
+		                	</a>
 		                </div>
 		            </div>
 		        </form>

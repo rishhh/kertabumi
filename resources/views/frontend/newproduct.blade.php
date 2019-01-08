@@ -1,9 +1,6 @@
 @extends('layouts.customer')
 @section('content')
 
-<?php 
-$thisPage="Home";
-?>
 <script>
   <?php 
     $sumber = "".route('api.bajubatikjs.np');
@@ -21,16 +18,35 @@ $thisPage="Home";
         ?>
       <div class="col-lg-4 col-md-6 mb-4">
         <div class="card h-100">
-          <a href="detailproduct-np.php?id=<?php echo "$a";?>"><img class="card-img-top" src="{{ asset('storage/img') }}/<?php print_r($arr[$a]['file']); ?>" alt=""></a>
+          @if(Auth::guard('customer')->check())
+          <?php 
+          $thisPage="npHome";
+          ?>
+          <a href="{{ url('home/detailProduct') }}/<?php print_r($arr[$a]['id']); ?>"><img class="card-img-top" src="{{ asset('storage/img') }}/<?php print_r($arr[$a]['file']); ?>" alt=""></a>
           <div class="card-body">
             <h4 class="card-title">
-              <a href="detailproduct-np.php?id=<?php echo "$a";?>"><?php print_r($arr[$a]['nama_kemeja']); ?></a>
+              <a href="{{ url('home/detailProduct') }}/<?php print_r($arr[$a]['id']); ?>"><?php print_r($arr[$a]['nama_kemeja']); ?></a>
             </h4>
             <h5><?php print_r('Rp. '.$arr[$a]['harga']); ?></h5>
           </div>
           <div class="card-footer">
-            <a href="contact.php#info" class="btn btn-success">Pesan</a>
+            <a href="{{ url('home/detailProduct') }}/<?php print_r($arr[$a]['id']); ?>" class="btn btn-success">Pesan</a>
           </div>
+          @else
+          <?php 
+          $thisPage="np";
+          ?>
+          <a href="{{ url('detailProduct') }}/<?php print_r($arr[$a]['id']); ?>"><img class="card-img-top" src="{{ asset('storage/img') }}/<?php print_r($arr[$a]['file']); ?>" alt=""></a>
+          <div class="card-body">
+            <h4 class="card-title">
+              <a href="{{ url('detailProduct') }}/<?php print_r($arr[$a]['id']); ?>"><?php print_r($arr[$a]['nama_kemeja']); ?></a>
+            </h4>
+            <h5><?php print_r('Rp. '.$arr[$a]['harga']); ?></h5>
+          </div>
+          <div class="card-footer">
+            <a href="{{ url('detailProduct') }}/<?php print_r($arr[$a]['id']); ?>" class="btn btn-success">Pesan</a>
+          </div>
+          @endif
         </div>
       </div>
       <?php } ?>

@@ -2,7 +2,11 @@
 @section('content')
 
 <h1 align="center">Tambah Data Baju</h1>
-{!! Html::ul($errors->all()) !!}
+@if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <strong>File foto belum dipilih...</strong>
+    </div>
+@endif
 {!! Form::open(array('url'=>'backend/bajubatik', 'files'=>'true')) !!}
 <table class="table table-bordered">
 	<tr><td>Nama Baju</td><td>{!! Form::text('nama_kemeja','',['class'=>'form-control', 'required', 'autofocus']) !!}</td></tr>

@@ -7,8 +7,18 @@
 <hr>
 <table width="100%" id="customer-table" class="table table-hover">
 	<thead>
-		<tr><th>Nama</th><th>Jenis Kelamin</th><th>No Telp</th><th>Email</th><th>Alamat</th><th>Kode Pos</th><th> </th></tr>
+		<tr>
+            <th>No</th><th>Nama</th><th>Jenis Kelamin</th><th>No Telp</th><th>Email</th><th>Alamat</th><th>Kode Pos</th><th> </th>
+        </tr>
 	</thead>
+    <tbody>
+        
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>No</th><th>Nama</th><th>Jenis Kelamin</th><th>No Telp</th><th>Email</th><th>Alamat</th><th>Kode Pos</th><th> </th>
+        </tr>
+    </tfoot>
 
 </table>
 
@@ -22,6 +32,7 @@
                 serverSide : true,
                 ajax : '{{ route('backend.customerjs') }}',
                 columns : [
+                    { data: 'DT_Row_Index', name: 'id'},
                     { data: 'nama', name: 'nama'},
                     { data: 'jk', name: 'jk'},
                     { data: 'telp', name: 'telp'},

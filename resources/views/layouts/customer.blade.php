@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Kertabumi Batik</title>
 
@@ -23,7 +24,7 @@
     <link href="{{ asset('vendor/datatables-responsive/dataTables.responsive.css') }}" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/sb-admin-2.css') }}" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
@@ -49,7 +50,7 @@
           <ul class="navbar-nav ml-auto">
             @if(Auth::guard('customer')->check())
             <li class="nav-item <?php if($thisPage=='Home') {echo "active";}?>">
-              <a class="nav-link" href="{{ route('customer.home') }}">Home</a>
+              <a class="nav-link" id="ch" href="{{ route('customer.home') }}">Home</a>
             </li>
             <li class="nav-item <?php if($thisPage=='About') {echo "active";}?>">
               <a class="nav-link" href="{{ route('about.home') }}">About</a>
@@ -78,14 +79,14 @@
             
             @if(Auth::guard('customer')->check())
             <li class="dropdown">
-              <a class="nav-link" data-toggle="dropdown" href="#">
+              <a class="nav-link <?php if($thisPage=='Profil') {echo "active";}?>" data-toggle="dropdown" href="#">
                   {{ Auth::user()->nama }} <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
               </a>
               <ul class="dropdown-menu dropdown-alert">
                   <li><a href="{{ route('customer.home') }}/profil/{{ Auth::user()->id }}"><i class="fa fa-user fa-fw"></i> Profil Pengguna</a>
                   </li>
-                  <li><a href="#"><i class="fa fa-gear fa-fw"></i> Ubah Kata Sandi</a>
-                  </li>
+                  <!-- <li><a href="#"><i class="fa fa-gear fa-fw"></i> Ubah Kata Sandi</a>
+                  </li> -->
                   <li class="divider"></li>
                   <li><a href="{{ route('customer.logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                   </li>
@@ -94,10 +95,10 @@
             </li>
             @else
             <li class="nav-item <?php if($thisPage=='SignUp') {echo "active";}?>">
-              <a class="nav-link" href="signup">SignUp</a>
+              <a class="nav-link" href="{{ route('signup') }}">SignUp</a>
             </li>
              <li class="nav-item <?php if($thisPage=='Login') {echo "active";}?>">
-              <a class="nav-link" href="login">Login</a>
+              <a class="nav-link" href="{{ route('customer.login') }}">Login</a>
             </li>
             @endif
           </ul>
@@ -115,22 +116,23 @@
           @if(Auth::guard('customer')->check())
           <h1 class="my-4">Kategori</h1>
           <div class="list-group">
-            <a href="{{ route('bs.home') }}" class="list-group-item">Best Seller</a>
-            <a href="{{ route('np.home') }}" class="list-group-item">New Product</a>
-            <a href="{{ route('ap.home') }}" class="list-group-item">All Product</a>
+            <a href="{{ route('bs.home') }}" class="list-group-item <?php if($thisPage=='bsHome') {echo "active";}?>">Best Seller</a>
+            <a href="{{ route('np.home') }}" class="list-group-item <?php if($thisPage=='npHome') {echo "active";}?>">New Product</a>
+            <a href="{{ route('ap.home') }}" class="list-group-item <?php if($thisPage=='apHome') {echo "active";}?>">All Product</a>
           </div>
           <br>
           <div class="list-group">
-            <a href="#" class="list-group-item">Keranjang</a>
-            <a href="#" class="list-group-item">Transaksi</a>
-            <a href="#" class="list-group-item">Chat</a>
+            <a href="{{ url('home') }}/{{ Auth::user()->id }}/cart" id="cart" class="list-group-item <?php if($thisPage=='cartHome') {echo "active";}?>">Keranjang</a>
+            <a href="{{ url('home') }}/{{ Auth::user()->id }}/bayar" id="cart" class="list-group-item <?php if($thisPage=='bayarHome') {echo "active";}?>">Pembayaran</a>
+            <a href="{{ url('home') }}/{{ Auth::user()->id }}/trx" id="trx" class="list-group-item <?php if($thisPage=='trxHome') {echo "active";}?>">Transaksi</a><br>
+
           </div>
           @else
           <h1 class="my-4">Kategori</h1>
           <div class="list-group">
-            <a href="{{ route('bs') }}" class="list-group-item">Best Seller</a>
-            <a href="{{ route('np') }}" class="list-group-item">New Product</a>
-            <a href="{{ route('ap') }}" class="list-group-item">All Product</a>
+            <a href="{{ route('bs') }}" class="list-group-item <?php if($thisPage=='bs') {echo "active";}?>">Best Seller</a>
+            <a href="{{ route('np') }}" class="list-group-item <?php if($thisPage=='np') {echo "active";}?>">New Product</a>
+            <a href="{{ route('ap') }}" class="list-group-item <?php if($thisPage=='ap') {echo "active";}?>">All Product</a>
           </div>
           @endif
         </div>
@@ -170,10 +172,10 @@
     <script src="{{ asset('vendor/datatables-plugins/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables-responsive/dataTables.responsive.js') }}"></script>
      
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
-
     <!-- Custom Theme JavaScript -->
-    <script src="{{ asset('js/sb-admin-2.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+    
   </body>
 </html>

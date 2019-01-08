@@ -3,7 +3,7 @@
 
 <h1 align="center">Edit Data Admin</h1>
 {!! Html::ul($errors->all()) !!}
-{!! Form::model($user, array('url'=>'backend/user/'.$user->id,'method'=>'patch')) !!}
+{!! Form::model($adminstok, array('url'=>'backend/user/'.$adminstok->id,'method'=>'patch')) !!}
 @csrf
 <table class="table table-bordered">
 	<tr><td>Username</td><td>{!! Form::text('username',null ,['class'=>'form-control', 'required']) !!}</td></tr>

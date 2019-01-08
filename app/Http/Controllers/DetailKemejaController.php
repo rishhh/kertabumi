@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Kemeja;
+use App\DetailKemeja;
 use DataTables;
 use Input;
 use Redirect;
@@ -17,7 +18,7 @@ class DetailKemejaController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:web');
+        $this->middleware('auth:adminstok');
     }
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class DetailKemejaController extends Controller
     public function index()
     {
         $kemeja['kemeja'] = Kemeja::all();
-        return view('backend.stokbajubatik.index', $kemeja);
+        return view('adminstok.stokbajubatik.index', $kemeja);
     }
 
     /**
@@ -70,7 +71,26 @@ class DetailKemejaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $model = Kemeja::findOrFail($id);
+        return view('adminstok.stokbajubatik.form', compact('model'));        
+    }
+
+    public function edit2($id)
+    {
+        $model = Kemeja::findOrFail($id);
+        return view('adminstok.stokbajubatik.form2', compact('model'));        
+    }
+
+    public function edit3($id)
+    {
+        $model = Kemeja::findOrFail($id);
+        return view('adminstok.stokbajubatik.form3', compact('model'));        
+    }
+
+    public function edit4($id)
+    {
+        $model = Kemeja::findOrFail($id);
+        return view('adminstok.stokbajubatik.form4', compact('model'));        
     }
 
     /**
@@ -82,7 +102,100 @@ class DetailKemejaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'nama_kemeja'=>'required'
+            ]);
+        if ( $request->hasFile('file')) {
+            $model = Kemeja::findOrFail($id);
+            return $model;
+        }else{
+            $oldfilename = Kemeja::find($id)['file'];
+            $kemeja = Kemeja::find($id);
+
+            switch ($request->uk) {
+                case 'S':
+                    $stokAwal = $request->uk_s;
+                    $stokMasuk = $request->masuk;
+                    $stokKeluar = $request->keluar;
+                    $stokAkhir = $stokAwal + $stokMasuk - $stokKeluar;
+                    $kemeja->nama_kemeja = $request->nama_kemeja;
+                    $kemeja->harga = $request->harga;
+                    $kemeja->kategori = $request->kategori;
+                    $kemeja->uk_s = $stokAkhir;
+                    $kemeja->uk_m = $request->uk_m;
+                    $kemeja->uk_l = $request->uk_l;
+                    $kemeja->uk_xl = $request->uk_xl;
+                    $kemeja->bahan = $request->bahan;
+                    $kemeja->keterangan = $request->keterangan;
+                    $kemeja->file = $oldfilename;
+                    $kemeja->update();
+                    break;
+
+                case 'M':
+                    $stokAwal = $request->uk_m;
+                    $stokMasuk = $request->masuk;
+                    $stokKeluar = $request->keluar;
+                    $stokAkhir = $stokAwal + $stokMasuk - $stokKeluar;
+                    $kemeja->nama_kemeja = $request->nama_kemeja;
+                    $kemeja->harga = $request->harga;
+                    $kemeja->kategori = $request->kategori;
+                    $kemeja->uk_s = $request->uk_s;
+                    $kemeja->uk_m = $stokAkhir;
+                    $kemeja->uk_l = $request->uk_l;
+                    $kemeja->uk_xl = $request->uk_xl;
+                    $kemeja->bahan = $request->bahan;
+                    $kemeja->keterangan = $request->keterangan;
+                    $kemeja->file = $oldfilename;
+                    $kemeja->update();
+                    break;
+                case 'L':
+                    $stokAwal = $request->uk_l;
+                    $stokMasuk = $request->masuk;
+                    $stokKeluar = $request->keluar;
+                    $stokAkhir = $stokAwal + $stokMasuk - $stokKeluar;
+                    $kemeja->nama_kemeja = $request->nama_kemeja;
+                    $kemeja->harga = $request->harga;
+                    $kemeja->kategori = $request->kategori;
+                    $kemeja->uk_s = $request->uk_s;
+                    $kemeja->uk_m = $request->uk_m;
+                    $kemeja->uk_l = $stokAkhir;
+                    $kemeja->uk_xl = $request->uk_xl;
+                    $kemeja->bahan = $request->bahan;
+                    $kemeja->keterangan = $request->keterangan;
+                    $kemeja->file = $oldfilename;
+                    $kemeja->update();
+                    break;
+                case 'XL':
+                    $stokAwal = $request->uk_xl;
+                    $stokMasuk = $request->masuk;
+                    $stokKeluar = $request->keluar;
+                    $stokAkhir = $stokAwal + $stokMasuk - $stokKeluar;
+                    $kemeja->nama_kemeja = $request->nama_kemeja;
+                    $kemeja->harga = $request->harga;
+                    $kemeja->kategori = $request->kategori;
+                    $kemeja->uk_s = $request->uk_s;
+                    $kemeja->uk_m = $request->uk_m;
+                    $kemeja->uk_l = $request->uk_l;
+                    $kemeja->uk_xl = $stokAkhir;
+                    $kemeja->bahan = $request->bahan;
+                    $kemeja->keterangan = $request->keterangan;
+                    $kemeja->file = $oldfilename;
+                    $kemeja->update();
+                    break;
+            }
+
+            $detailKemeja = new DetailKemeja();
+            $detailKemeja->id_kemeja = $id;
+            $detailKemeja->ukuran = $request->uk;
+            $detailKemeja->awal = $stokAwal;
+            $detailKemeja->masuk = $stokMasuk;
+            $detailKemeja->keluar = $stokKeluar;
+            $detailKemeja->akhir = $stokAkhir;
+            $detailKemeja->save();
+
+            $model = Kemeja::findOrFail($id);
+            return $model;
+        }
     }
 
     /**
@@ -96,16 +209,36 @@ class DetailKemejaController extends Controller
         //
     }
 
-    public function json()
+    public function dataTable()
     {
-        $kemeja = Kemeja::all();
-
-        return Datatables::of($kemeja)
-            ->addColumn('action', function($kemeja){
-                return 'S : <span>'.$kemeja->uk_s.' </span><a href="bajubatik/'.$kemeja->id.'/edit" class="fa btn btn-info btn-sm"><i class="glyphicon glyphicon-edit"></i></a> '.
-                    'M : <span>'.$kemeja->uk_m.' </span><a href="bajubatik/'.$kemeja->id.'/edit" class="fa btn btn-info btn-sm"><i class="glyphicon glyphicon-edit"></i></a> '.
-                    'L : <span>'.$kemeja->uk_l.' </span><a href="bajubatik/'.$kemeja->id.'/edit" class="fa btn btn-info btn-sm"><i class="glyphicon glyphicon-edit"></i></a> '.
-                    'XL : <span>'.$kemeja->uk_xl.' </span><a href="bajubatik/'.$kemeja->id.'/edit" class="fa btn btn-info btn-sm"><i class="glyphicon glyphicon-edit"></i></a> ';
-            })->make(true);
+        $model = Kemeja::all();
+        return DataTables::of($model)
+            ->addColumn('action1', function ($model) {
+                return view('layouts._action', [
+                    'model' => $model,
+                    'url_edit' => route('stokbajubatik.edit', $model->id)
+                ]);
+            })
+            ->addColumn('action2', function ($model) {
+                return view('layouts._action', [
+                    'model' => $model,
+                    'url_edit' => route('stokbajubatik.edit2', $model->id)
+                ]);
+            })
+            ->addColumn('action3', function ($model) {
+                return view('layouts._action', [
+                    'model' => $model,
+                    'url_edit' => route('stokbajubatik.edit3', $model->id)
+                ]);
+            })
+            ->addColumn('action4', function ($model) {
+                return view('layouts._action', [
+                    'model' => $model,
+                    'url_edit' => route('stokbajubatik.edit4', $model->id)
+                ]);
+            })
+            ->addIndexColumn()
+            ->rawColumns(['action1', 'action2', 'action3', 'action4'])
+            ->make(true);
     }
 }

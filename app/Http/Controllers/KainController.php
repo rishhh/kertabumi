@@ -6,6 +6,7 @@ use App\Kain;
 use DataTables;
 use Input;
 use Redirect;
+use Storage;
 use Illuminate\Http\Request;
 
 class KainController extends Controller
@@ -29,7 +30,6 @@ class KainController extends Controller
         $kain['kain'] = Kain::all();
         return view('backend.kain.index', $kain);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -50,9 +50,10 @@ class KainController extends Controller
     {
         $this->validate($request,[
             'tipe'=>'required',
-            'nama_kain'=>'required',
+            'nama_kain'=>'required|string|max:255|unique:kains',
             'supplier'=>'required',
-            'stok'=>'required',
+            'stok'=>'required|integer',
+            'file'=>'required'
             ]);
         if ( $request->hasFile('file')) {
             $filename = $request->file->getClientOriginalName();
@@ -67,11 +68,8 @@ class KainController extends Controller
             $kain->save();
             return Redirect('backend/kain');
         }else{
-            return 'No selected file';
+            return view('backend/kain/create');
         }
-        // $input = $request->all();
-        // Kain::create($input);
-        // return Redirect('backend/kain');
     }
 
     /**
@@ -109,13 +107,15 @@ class KainController extends Controller
     {
         $this->validate($request,[
             'tipe'=>'required',
-            'nama_kain'=>'required',
+            'nama_kain'=>'required|string|max:255',
             'supplier'=>'required',
-            'stok'=>'required'
+            'stok'=>'required|integer'
             ]);
         if ( $request->hasFile('file')) {
             $filename = $request->file->getClientOriginalName();
             $request->file->storeAs('public/kain',$filename);
+            $oldfilename = Kain::find($id)['file'];
+            Storage::delete('public/kain/'.$oldfilename);
 
             $kain = Kain::find($id);
             $kain->tipe = $request->tipe;
@@ -126,13 +126,16 @@ class KainController extends Controller
             $kain->update();
             return Redirect('backend/kain');
         }else{
-            return 'No selected file';
+            $oldfilename = Kain::find($id)['file'];
+            $kain = Kain::find($id);
+            $kain->tipe = $request->tipe;
+            $kain->nama_kain = $request->nama_kain;
+            $kain->supplier = $request->supplier;
+            $kain->stok = $request->stok;
+            $kain->file = $oldfilename;
+            $kain->update();
+            return Redirect('backend/kain');
         }
-
-        // $input = $request->all();
-        // $kain = Kain::find($id);
-        // $kain->update($input);
-        // return Redirect('backend/kain');
     }
 
     /**
@@ -143,6 +146,8 @@ class KainController extends Controller
      */
     public function destroy($id)
     {
+        $oldfilename = Kain::find($id)['file'];
+        Storage::delete('public/kain/'.$oldfilename);
         $kain = Kain::find($id);
         $kain->delete();
         return Redirect('backend/kain');
@@ -165,6 +170,8 @@ class KainController extends Controller
                 return '<a href="kain/'.$kain->id.'" class="fa btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i> Detail</a> '.
                     '<a href="kain/'.$kain->id.'/edit" class="fa btn btn-info btn-sm"><i class="glyphicon glyphicon-edit"></i> Edit</a> '.
                     '<a href="kain" onclick="deleteData('.$kain->id.')" class="fa btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i> Hapus</a>';
-            })->make(true);
+            })
+            ->addIndexColumn()
+            ->make(true);
     }
 }

@@ -9,28 +9,34 @@
     </div>
     <!-- /.row -->
     <div class="row">
-    	<a href="{{ route('backend.home') }}/pembayaran">
+    	<a href="{{ route('backend.home') }}/keranjang">
 	        <div class="col-xs-6 col-md-4">
 	            <div class="panel panel-green">
 	                <div class="panel-heading">
 	                    <div class="row">
 	                        <div class="col-xs-3">
-	                            <i class="fa fa-money fa-5x"></i>
+	                            <i class="fa fa-shopping-cart fa-5x"></i>
 	                        </div>
 	                        <div class="col-xs-9 text-right">
-	                            <div class="huge">90</div>
+	                            <div class="huge">
+	                            	<?php  
+								         $sumber = "".route('api.keranjangjs');
+								         $arr = json_decode(file_get_contents($sumber), true);
+								         echo count($arr);
+								    ?>
+	                            </div>
 	                        </div>
 	                    </div>
 	                </div>
                     <div class="panel-footer">
-                        <span class="pull-left">Pembayaran</span>
+                        <span class="pull-left">Keranjang</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
                     </div>
 	            </div>
 	        </div>
 	    </a>
-	    <a href="#">
+	    <a href="{{ route('backend.home') }}/transaksi">
 	        <div class="col-xs-6 col-md-4">
 	            <div class="panel panel-primary">
 	                <div class="panel-heading">
@@ -39,7 +45,13 @@
 	                            <i class="fa fa-exchange fa-5x"></i>
 	                        </div>
 	                        <div class="col-xs-9 text-right">
-	                            <div class="huge">90</div>
+	                            <div class="huge">
+	                            	<?php  
+								         $sumber = "".route('api.transaksijs');
+								         $arr = json_decode(file_get_contents($sumber), true);
+								         echo count($arr);
+								    ?>
+	                            </div>
 	                        </div>
 	                    </div>
 	                </div>
@@ -159,45 +171,41 @@
 	            </div>
 	        </div>
 	    </a>
-	    <a href="{{ route('backend.home') }}/stokbajubatik">
+<!-- 	    <a href="#">
 	        <div class="col-xs-6 col-md-4">
 	            <div class="panel panel-danger">
 	                <div class="panel-heading">
 	                    <div class="row">
 	                        <div class="col-xs-3">
-	                            <i class="fa fa-tasks fa-5x"></i>
+	                            <i class="fa fa-align-justify fa-5x"></i>
 	                        </div>
 	                        <div class="col-xs-9 text-right">
 	                            <div class="huge">
-	                            	<?php  
-								         $sumber = "".route('api.stokbajubatikjs');
-								         $arr = json_decode(file_get_contents($sumber), true);
-								         echo count($arr);
-								    ?>
+	                            	X
 	                            </div>
 	                        </div>
 	                    </div>
 	                </div>
                     <div class="panel-footer">
-                        <span class="pull-left">Stok Batik</span>
+                        <span class="pull-left">Diskripsi</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
                     </div>
 	            </div>
 	        </div>
-	    </a>
-	    <a href="{{ route('backend.home') }}/stokkain">
+	    </a> -->
+	    <a href="{{ route('backend.home') }}/testimoni">
 	        <div class="col-xs-6 col-md-4">
 	            <div class="panel panel-danger">
 	                <div class="panel-heading">
 	                    <div class="row">
 	                        <div class="col-xs-3">
-	                            <i class="fa fa-tasks fa-5x"></i>
+	                            <i class="fa fa-photo fa-5x"></i>
 	                        </div>
 	                        <div class="col-xs-9 text-right">
 	                            <div class="huge">
 	                            	<?php  
-								         $sumber = "".route('api.stokkainjs');
+								         $sumber = "".route('api.testimonijs');
 								         $arr = json_decode(file_get_contents($sumber), true);
 								         echo count($arr);
 								    ?>
@@ -206,7 +214,7 @@
 	                    </div>
 	                </div>
                     <div class="panel-footer">
-                        <span class="pull-left">Stok Kain</span>
+                        <span class="pull-left">Testimoni</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
                     </div>
@@ -224,7 +232,7 @@
 	                        <div class="col-xs-9 text-right">
 	                            <div class="huge">
 	                            	<?php  
-								         $sumber = "".route('api.userjs');
+								         $sumber = "".route('api.adminstokjs');
 								         $arr = json_decode(file_get_contents($sumber), true);
 								         echo count($arr);
 								    ?>

@@ -32,8 +32,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user['user'] = User::all();        
-        return view('backend.user.index', $user);
+        $adminstok['adminstok'] = Adminstok::all();        
+        return view('backend.user.index', $adminstok);
     }
 
     /**
@@ -60,17 +60,18 @@ class UserController extends Controller
             'password'=>'required'
             ]);
         $data = $request->all();
-        User::create([
+        Adminstok::create([
             'username' => $data['username'],
             'email' => $data['email'],
             'level' => $data['level'],
             'password' => Hash::make($data['password']),
         ]);
         switch ($data['level']) {
-            case '1':
-                Adminstok::create([
+            case '0':
+                User::create([
                 'username' => $data['username'],
                 'email' => $data['email'],
+                'level' => $data['level'],
                 'password' => Hash::make($data['password']),
                 ]);
                 return Redirect('backend/user');
@@ -103,8 +104,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user['user'] = User::find($id);
-        return view('backend.user.edit', $user);
+        $adminstok['adminstok'] = Adminstok::find($id);
+        return view('backend.user.edit', $adminstok);
     }
 
     /**
@@ -123,18 +124,19 @@ class UserController extends Controller
             'password'=>'required'
             ]);
         $data = $request->all();
-        $user = User::find($id);
-        $user->update([
+        $adminstok = Adminstok::find($id);
+        $adminstok->update([
             'username' => $data['username'],
             'email' => $data['email'],
             'level' => $data['level'],
             'password' => Hash::make($data['password']),
         ]);
         switch ($data['level']) {
-            case '1':
-                Adminstok::create([
+            case '0':
+                User::create([
                 'username' => $data['username'],
                 'email' => $data['email'],
+                'level' => $data['level'],
                 'password' => Hash::make($data['password']),
                 ]);
                 return Redirect('backend/user');
@@ -155,17 +157,33 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
+        $user = Adminstok::find($id);
         $email = $user->email;
-        $aid['id'] = Adminstok::where("email",$email)->first();
-        Adminstok::find($aid['id']->id)->delete();
-        $user->delete();
-        return Redirect('backend/user');
+        $result =  User::where("email",$email)->get();
+
+        if (!$result->isEmpty()){
+
+            $user = Adminstok::find($id);
+            $email = $user->email;
+
+            $asid['id'] = User::where("email",$email)->first();
+            User::find($asid['id']->id)->delete();
+            
+            $user->delete();
+            return Redirect('backend/user');
+
+        }else{
+
+            $adminstok = Adminstok::find($id);
+
+            $adminstok->delete();
+            return Redirect('backend/user');
+        } 
     }
 
     public function json()
     {
-        $user = User::all();
+        $user = Adminstok::all();
 
         return Datatables::of($user)
             ->addColumn('level',function($user){
@@ -178,6 +196,8 @@ class UserController extends Controller
             ->addColumn('action', function($user){
                 return '<a href="user/'.$user->id.'/edit" class="fa btn btn-info btn-sm"><i class="glyphicon glyphicon-edit"></i> Edit</a> '.
                     '<a href="user" onclick="deleteData('.$user->id.')" class="fa btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i> Hapus</a>';
-            })->make(true);
+            })
+            ->addIndexColumn()
+            ->make(true);
     }
 }
